@@ -4,6 +4,9 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 import pandas as pd
 import pickle
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
 
 # Load model
 model = load_model('model.h5')
@@ -15,7 +18,11 @@ with open('label_encoder_gender.pkl', 'rb') as file:
 with open('one_hot_geo.pkl', 'rb') as file:
     one_hot_geo = pickle.load(file)
 
-with open('/workspaces/Ai-RNN-Implementaion/scalar.pkl', 'rb') as file:
+scaler_path = BASE_DIR / 'scaler.pkl'
+if not scaler_path.exists():
+    scaler_path = BASE_DIR / 'scalar.pkl'
+
+with open(scaler_path, 'rb') as file:
     scaler = pickle.load(file)
 
 # Streamlit UI
